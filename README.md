@@ -10,4 +10,10 @@ pip3 install -U sentence-transformers
 pip3 install faiss-cpu
 ```
 https://pypi.org/project/sentence-transformers/
+
 https://pypi.org/project/faiss-cpu/
+
+### TODO
+1. GUI
+2. Optimization
+3. Expand search scope to file internals
