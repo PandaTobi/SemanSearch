@@ -29,14 +29,14 @@ def index_files(root_path):
 
     print("Indexing complete.")
 
-def semantic_search(query, top_k=10):
+def semantic_search(query):
     query_embedding = model.encode(query).astype("float32").reshape(1, -1)
     index = faiss.read_index("file_index.faiss")
 
     with open("file_paths.json", "r") as f:
         paths = json.load(f)
 
-    D, I = index.search(query_embedding, top_k)
+    D, I = index.search(query_embedding, len(paths))
     results = [paths[i] for i in I[0]]
     return results
 
