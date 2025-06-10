@@ -25,12 +25,14 @@ if __name__ == "__main__":
     parser.add_argument("--path", help="Directory to check for new files")
 
     args = parser.parse_args()
-
+ 
     if args.path:
+        search_file.index_files(args.path)
+
         path_to_watch=args.path
         event_handler = MyHandler()
         observer = Observer()
-        observer.schedule(event_handler, path=path_to_watch, recursive=False)
+        observer.schedule(event_handler, path=path_to_watch, recursive=True)
         observer.start()
 
         try:
