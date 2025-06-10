@@ -67,10 +67,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.action == "index" and args.path:
-        for i in range(10):
-            index_files(args.path)
+        index_files(args.path)
     elif args.action == "search" and args.query:
-        for i in range(10):
-            matches = semantic_search(args.query)
+        matches = semantic_search(args.query)
         for match in matches:
             print(match)

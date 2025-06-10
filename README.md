@@ -2,6 +2,9 @@
 ```
 python3 search_file.py index --path /user/name/path/to/folder
 python3 search_file.py search --query “sickness”
+
+To keep a background updater:
+python3 watcher.py --path /Users/sidsannabhadti/Documents/Projects/SemanSearch/dummy
 ```
 
 ### Dependencies
