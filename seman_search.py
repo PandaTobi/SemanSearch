@@ -10,13 +10,13 @@ import os
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
-            print(f"\n\nNew file detected: {args.path}")
-            search_file.index_files(os.path.dirname(args.path))
+            print(f"\n\nNew file detected: {event.src_path}")
+            search_file.index_files(os.path.dirname(event.src_path))
 
     def on_deleted(self, event):
         if not event.is_directory:
-            print(f"\n\nFile deleted: {args.path}")
-            search_file.index_files(os.path.dirname(args.path))
+            print(f"\n\nFile deleted: {event.src_path}")
+            search_file.index_files(os.path.dirname(event.src_path))
 
 if __name__ == "__main__":
     import argparse
