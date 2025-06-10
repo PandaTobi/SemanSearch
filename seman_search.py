@@ -7,11 +7,17 @@ import os
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
-            print(f"New file detected: {event.src_path}")
+            print(f"\n\nNew file detected: {event.src_path}")
+            search_file.index_files(os.path.dirname(event.src_path))
+
+    def on_deleted(self, event):
+        if not event.is_directory:
+            print(f"\n\nFile deleted: {event.src_path}")
             search_file.index_files(os.path.dirname(event.src_path))
 
 if __name__ == "__main__":
     import argparse
+    import search_file
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", help="Directory to check for new files")
 
@@ -26,7 +32,14 @@ if __name__ == "__main__":
 
         try:
             while True:
-                time.sleep(1)
+                query = input("Enter a search query (or nothing to quit): ")
+                if query.strip() == '':
+                    observer.stop()
+                    break
+                matches = search_file.semantic_search(query)
+                for match in matches:
+                    print(match)
+                print("Search complete.\n")
         except KeyboardInterrupt:
             observer.stop()
         observer.join()

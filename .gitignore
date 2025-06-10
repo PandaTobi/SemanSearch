@@ -1,3 +1,4 @@
 .DS_Store
 file_index.faiss
 file_paths.json
+__pycache__
