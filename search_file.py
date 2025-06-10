@@ -4,9 +4,6 @@ import faiss
 import numpy as np
 import json
 
-import warnings
-warnings.filterwarnings("ignore", message="resource_tracker: There appear to be .*")
-
 model = SentenceTransformer("all-MiniLM-L6-v2")
 # list of pretrained: https://sbert.net/docs/sentence_transformer/pretrained_models.html
 
@@ -23,14 +20,9 @@ def index_files(root_path):
 
     embeddings_np = np.array(embeddings).astype("float32")
 
-    d = embeddings_np.shape[1]
-    quantizer = faiss.IndexFlatL2(d)
-    index = faiss.IndexIVFFlat(quantizer, d, 1, faiss.METRIC_L2)
-    # https://faiss.ai/cpp_api/struct/structfaiss_1_1IndexIVFFlat.html
-
-    index.train(embeddings_np)
-    index.add(embeddings_np)
-    faiss.write_index(index, "file_index.faiss")
+    faiss_index = faiss.IndexFlatL2(embeddings_np.shape[1])
+    faiss_index.add(embeddings_np)
+    faiss.write_index(faiss_index, "file_index.faiss")
 
     with open("file_paths.json", "w") as f:
         json.dump(paths, f)
@@ -40,8 +32,6 @@ def index_files(root_path):
 def semantic_search(query):
     query_embedding = model.encode(query).astype("float32").reshape(1, -1)
     index = faiss.read_index("file_index.faiss")
-
-    index.nprobe = 10
 
     with open("file_paths.json", "r") as f:
         paths = json.load(f)
