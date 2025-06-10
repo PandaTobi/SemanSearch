@@ -4,16 +4,19 @@ from watchdog.events import FileSystemEventHandler
 import search_file
 import os
 
+## Currently the watchdog observer watches the correct path (I think), but the search_file module
+## is not set up to handle the path argument correctly.
+
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
-            print(f"\n\nNew file detected: {event.src_path}")
-            search_file.index_files(os.path.dirname(event.src_path))
+            print(f"\n\nNew file detected: {args.path}")
+            search_file.index_files(os.path.dirname(args.path))
 
     def on_deleted(self, event):
         if not event.is_directory:
-            print(f"\n\nFile deleted: {event.src_path}")
-            search_file.index_files(os.path.dirname(event.src_path))
+            print(f"\n\nFile deleted: {args.path}")
+            search_file.index_files(os.path.dirname(args.path))
 
 if __name__ == "__main__":
     import argparse

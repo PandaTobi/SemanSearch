@@ -32,6 +32,8 @@ def index_files(root_path):
     execution_time = end_time - start_time
     print(f"Index time: {execution_time} seconds")
 
+    ## This doesn't jive well with the seman_search.py code
+    ## TODO: specify the path when searching as well rather than caching the indexed paths
     with open("file_paths.json", "w") as f:
         json.dump(paths, f)
 
@@ -44,6 +46,8 @@ def semantic_search(query):
     query_embedding = model.encode(query).astype("float32").reshape(1, -1)
     index = faiss.read_index("file_index.faiss")
 
+    ## This doesn't jive well with the seman_search.py code
+    ## TODO: specify the path when searching as well
     with open("file_paths.json", "r") as f:
         paths = json.load(f)
 
